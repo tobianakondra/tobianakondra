@@ -1,14 +1,15 @@
 {
-  "infectionRate": 13.5,
+  "infectionRate": 19.5,
   "integrity": 100,
-  "cpuLoad": 17,
+  "cpuLoad": 30,
   "defense": 10,
   "stage": "DORMANT",
   "history": [
     "VIRUS PROTOCOL CONSTRUCTED. Awaiting execution.",
     "[11:33] Replication cycle: +12% integrity, +2.5% spread.",
     "[11:33] Payload injected by @cyber_test_hacker. Spread +6.0%",
-    "[12:42] Replication cycle: +24% integrity, +5.0% spread."
+    "[12:42] Replication cycle: +24% integrity, +5.0% spread.",
+    "[12:46] Payload injected by @tobianakondra. Spread +6.0%"
   ],
-  "lastUpdated": "2026-06-14T12:42:16.943Z"
+  "lastUpdated": "2026-06-14T12:46:54.294Z"
 }
