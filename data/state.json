@@ -1,7 +1,7 @@
 {
   "infectionRate": 14.58,
-  "integrity": 45,
-  "cpuLoad": 11,
+  "integrity": 43.5,
+  "cpuLoad": 18,
   "defense": 10,
   "stage": "DORMANT",
   "history": [
@@ -11,5 +11,5 @@
     "[12:48] Antivirus deployed by @tobianakondra. Mitigation: 10% (Net: -10.9%)",
     "[15:31] Payload injected by @tobianakondra. Spread +6.0%"
   ],
-  "lastUpdated": "2026-06-19T08:58:44.454Z"
+  "lastUpdated": "2026-06-19T12:47:00.119Z"
 }
