@@ -107,11 +107,11 @@
       <text x="0" y="10" fill="#8892b0" font-family="'Share Tech Mono', monospace" font-size="11" letter-spacing="1">
         VIRUS DATA INTEGRITY
       </text>
-      <text x="260" y="10" fill="#ffaa00" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
-        40.5%
+      <text x="260" y="10" fill="#ff0055" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
+        39%
       </text>
       <g transform="translate(0, 18)">
-        <rect x="30" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="45" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="60" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="75" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="90" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="105" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="120" y="0" width="10" height="15" fill="#ffaa00" rx="2" /><rect x="135" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="150" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="165" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="180" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="195" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="210" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="225" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="240" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="255" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="270" y="0" width="10" height="15" fill="#1a1c24" rx="2" />
+        <rect x="30" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="45" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="60" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="75" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="90" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="105" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="120" y="0" width="10" height="15" fill="#ff0055" rx="2" /><rect x="135" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="150" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="165" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="180" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="195" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="210" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="225" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="240" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="255" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="270" y="0" width="10" height="15" fill="#1a1c24" rx="2" />
       </g>
     </g>
 
@@ -121,14 +121,14 @@
         HOST CPU UTILIZATION
       </text>
       <text x="260" y="10" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
-        12%
+        15%
       </text>
       <g transform="translate(0, 18)">
         <!-- Pulse graph line simulation -->
         <rect x="0" y="0" width="260" height="25" fill="#16171f" rx="3" />
         <path d="M 5 15 L 40 15 L 50 5 L 60 20 L 70 12 L 100 12 L 110 2 L 120 23 L 130 10 L 160 10 L 170 20 L 180 5 L 190 15 L 255 15" 
               fill="none" stroke="#00f0ff" stroke-width="1.5">
-          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.4s" repeatCount="indefinite" />
+          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.25s" repeatCount="indefinite" />
         </path>
       </g>
     </g>
@@ -329,11 +329,11 @@
     </rect>
 
     <text x="35" y="335" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="11" opacity="0.9">
-      &gt; [12:46] Payload injected by @tobianakondra. Spread +6.0%
-    </text><text x="35" y="353" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="11" opacity="0.9">
       &gt; [12:48] Antivirus deployed by @tobianakondra. Mitigation: 10% (Net: -10.9%)
-    </text><text x="35" y="371" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="11" opacity="0.9">
+    </text><text x="35" y="353" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="11" opacity="0.9">
       &gt; [15:31] Payload injected by @tobianakondra. Spread +6.0%
+    </text><text x="35" y="371" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="11" opacity="0.9">
+      &gt; [19:26] WARNING: Core integrity under 40%.
     </text>
   </g>
 </svg>
