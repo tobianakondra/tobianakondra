@@ -1,7 +1,7 @@
 {
   "infectionRate": 14.58,
-  "integrity": 22.5,
-  "cpuLoad": 18,
+  "integrity": 21,
+  "cpuLoad": 12,
   "defense": 10,
   "stage": "DORMANT",
   "history": [
@@ -11,5 +11,5 @@
     "[15:31] Payload injected by @tobianakondra. Spread +6.0%",
     "[19:26] WARNING: Core integrity under 40%."
   ],
-  "lastUpdated": "2026-06-20T21:05:13.918Z"
+  "lastUpdated": "2026-06-20T22:58:28.573Z"
 }
