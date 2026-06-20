@@ -34,7 +34,7 @@ async function main() {
 
   // 3. Fetch latest GitHub data
   console.log("Fetching telemetry from GitHub API...");
-  const githubData = await fetchGitHubData();
+  const githubData = await fetchGitHubData(args);
   console.log(`Telemetry retrieved: Commits last hour: ${githubData.commitsCount}, Stars: ${githubData.starsCount}, Issues: ${githubData.openIssuesCount}`);
 
   // 4. Process updates

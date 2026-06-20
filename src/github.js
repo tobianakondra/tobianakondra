@@ -3,7 +3,43 @@
  * Retrieves repository stats and commit history.
  */
 
-export async function fetchGitHubData() {
+import { execSync } from 'child_process';
+
+function getLocalCommitsCount(before, after, event) {
+  try {
+    // 1. If it's a push event and we have valid SHAs, count the exact commits pushed
+    if (
+      event === 'push' && 
+      before && 
+      after && 
+      before !== '0000000000000000000000000000000000000000' &&
+      after !== '0000000000000000000000000000000000000000'
+    ) {
+      console.log(`Analyzing push delta: ${before.substring(0, 7)}...${after.substring(0, 7)}`);
+      const output = execSync(
+        `git log ${before}..${after} --grep="\\[VastoWorm\\]" --invert-grep --oneline`,
+        { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }
+      );
+      const lines = output.trim().split('\n').filter(line => line.length > 0);
+      return lines.length;
+    }
+
+    // 2. Default fallback: Count commits in the last hour
+    console.log("Analyzing commits in the last hour...");
+    const output = execSync(
+      'git log --since="1 hour ago" --grep="\\[VastoWorm\\]" --invert-grep --oneline',
+      { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }
+    );
+    const lines = output.trim().split('\n').filter(line => line.length > 0);
+    return lines.length;
+  } catch (err) {
+    console.warn("⚠️ Local git log failed, falling back to API:", err.message);
+    return null;
+  }
+}
+
+export async function fetchGitHubData(args = {}) {
+  const { before, after, event } = args;
   const repo = process.env.GITHUB_REPOSITORY; // format: "owner/repo"
   const token = process.env.GITHUB_TOKEN;
 
@@ -31,21 +67,27 @@ export async function fetchGitHubData() {
     }
     const repoData = await repoResponse.json();
 
-    // 2. Fetch Commits from the past hour
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-    const sinceDate = oneHourAgo.toISOString();
-
-    const commitsResponse = await fetch(`https://api.github.com/repos/${repo}/commits?since=${sinceDate}`, { headers });
-    let commitsCount = 0;
+    // 2. Fetch Commits - try local git first, fallback to API
+    let commitsCount = getLocalCommitsCount(before, after, event);
     
-    if (commitsResponse.ok) {
-      const commitsData = await commitsResponse.json();
-      if (Array.isArray(commitsData)) {
-        commitsCount = commitsData.length;
+    if (commitsCount === null) {
+      const oneHourAgo = new Date();
+      oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+      const sinceDate = oneHourAgo.toISOString();
+
+      const commitsResponse = await fetch(`https://api.github.com/repos/${repo}/commits?since=${sinceDate}`, { headers });
+      commitsCount = 0;
+      
+      if (commitsResponse.ok) {
+        const commitsData = await commitsResponse.json();
+        if (Array.isArray(commitsData)) {
+          // Filter out bot commits manually
+          const userCommits = commitsData.filter(c => !c.commit.message.includes('[VastoWorm]'));
+          commitsCount = userCommits.length;
+        }
+      } else {
+        console.warn(`Commits fetch failed: ${commitsResponse.status}`);
       }
-    } else {
-      console.warn(`Commits fetch failed: ${commitsResponse.status}`);
     }
 
     return {
@@ -56,7 +98,6 @@ export async function fetchGitHubData() {
 
   } catch (error) {
     console.error("❌ Error fetching GitHub API data:", error);
-    // Fallback in case of API rate-limiting or network issues
     return {
       commitsCount: 0,
       starsCount: 0,

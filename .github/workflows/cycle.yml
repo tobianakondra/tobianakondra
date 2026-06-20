@@ -26,7 +26,7 @@ jobs:
           node-version: 20
 
       - name: Run Hourly Cycle
-        run: node src/index.js
+        run: node src/index.js --before="${{ github.event.before }}" --after="${{ github.event.after }}" --event="${{ github.event_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
