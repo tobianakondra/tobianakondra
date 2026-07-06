@@ -121,14 +121,14 @@
         HOST CPU UTILIZATION
       </text>
       <text x="260" y="10" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
-        15%
+        10%
       </text>
       <g transform="translate(0, 18)">
         <!-- Pulse graph line simulation -->
         <rect x="0" y="0" width="260" height="25" fill="#16171f" rx="3" />
         <path d="M 5 15 L 40 15 L 50 5 L 60 20 L 70 12 L 100 12 L 110 2 L 120 23 L 130 10 L 160 10 L 170 20 L 180 5 L 190 15 L 255 15" 
               fill="none" stroke="#00f0ff" stroke-width="1.5">
-          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.25s" repeatCount="indefinite" />
+          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.5s" repeatCount="indefinite" />
         </path>
       </g>
     </g>
