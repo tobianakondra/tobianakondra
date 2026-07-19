@@ -1,7 +1,7 @@
 {
   "infectionRate": 17.08,
   "integrity": 10,
-  "cpuLoad": 15,
+  "cpuLoad": 14,
   "defense": 14,
   "stage": "MUTATING",
   "history": [
@@ -11,5 +11,5 @@
     "[19:26] WARNING: Core integrity under 40%.",
     "[17:40] Replication cycle: +12% integrity, +2.5% spread."
   ],
-  "lastUpdated": "2026-07-19T15:47:42.850Z"
+  "lastUpdated": "2026-07-19T16:45:09.868Z"
 }
