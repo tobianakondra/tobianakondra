@@ -1,7 +1,7 @@
 {
   "infectionRate": 23.08,
   "integrity": 10,
-  "cpuLoad": 12,
+  "cpuLoad": 17,
   "defense": 18,
   "stage": "MUTATING",
   "history": [
@@ -11,5 +11,5 @@
     "[17:40] Replication cycle: +12% integrity, +2.5% spread.",
     "[08:19] Payload injected by @tobianakondra. Spread +6.0%"
   ],
-  "lastUpdated": "2026-08-30T18:16:11.196Z"
+  "lastUpdated": "2026-08-30T21:44:03.419Z"
 }
