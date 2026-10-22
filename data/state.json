@@ -1,16 +1,17 @@
 {
-  "infectionRate": 23.08,
-  "integrity": 10,
-  "cpuLoad": 61,
+  "infectionRate": 28.08,
+  "integrity": 34,
+  "cpuLoad": 16,
   "defense": 58,
   "stage": "MUTATING",
   "history": [
-    "[12:48] Antivirus deployed by @tobianakondra. Mitigation: 10% (Net: -10.9%)",
     "[15:31] Payload injected by @tobianakondra. Spread +6.0%",
     "[19:26] WARNING: Core integrity under 40%.",
     "[17:40] Replication cycle: +12% integrity, +2.5% spread.",
-    "[08:19] Payload injected by @tobianakondra. Spread +6.0%"
+    "[08:19] Payload injected by @tobianakondra. Spread +6.0%",
+    "[20:46] Replication: +2 commits [tobianakondra] (+5.0% spread, +24% integrity)."
   ],
-  "lastUpdated": "2026-10-22T20:12:17.497Z",
-  "lastEventTimestamp": "2026-10-22T20:12:17.496Z"
+  "lastUpdated": "2026-10-22T20:46:33.282Z",
+  "lastEventTimestamp": "2026-10-04T19:05:23Z",
+  "lastEventId": "23008576389"
 }
