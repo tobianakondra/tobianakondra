@@ -1,6 +1,6 @@
 /**
- * VastoWorm.sys Orchestrator  
- * entrypoint to process automated cycles and visitor interactions.
+ * VastoWorm.sys Orchestrator
+ * Entrypoint to process automated cycles and visitor interactions.
  */
 
 import { loadState, saveState, updateStateHourly, processInteraction } from './state.js';
@@ -26,24 +26,26 @@ async function main() {
   const user = args.user;     // e.g. "hacker123"
 
   // Get current repo name from environment
-  const repoName = process.env.GITHUB_REPOSITORY || "richard/VastoWorm.sys";
+  const repoName = process.env.GITHUB_REPOSITORY || "tobianakondra/tobianakondra";
 
   // 2. Load current state
   const state = loadState();
-  console.log(`Current Infection Rate: ${state.infectionRate}% | Stage: ${state.stage}`);
+  console.log(`Current Infection Rate: ${state.infectionRate.toFixed(1)}% | Stage: ${state.stage}`);
 
-  // 3. Fetch latest GitHub data
-  console.log("Fetching telemetry from GitHub API...");
-  const githubData = await fetchGitHubData(args);
-  console.log(`Telemetry retrieved: Commits last hour: ${githubData.commitsCount}, Stars: ${githubData.starsCount}, Issues: ${githubData.openIssuesCount}`);
+  // 3. Fetch latest GitHub data across repositories
+  console.log("Fetching global telemetry from GitHub API...");
+  const githubData = await fetchGitHubData(args, state);
+  console.log(`Telemetry retrieved: Commits: ${githubData.commitsCount}, Stars: ${githubData.starsCount}, Issues: ${githubData.openIssuesCount}`);
 
   // 4. Process updates
   if (action && user) {
     console.log(`⚡ Processing interactive dispatch action: ${action} from @${user}`);
     const interactionResult = processInteraction(state, action, user);
     
-    // Sync defense and CPU load even during interactive updates
-    state.defense = Math.min(100, 10 + githubData.starsCount * 4);
+    // Sync defense and CPU load while preserving FORTRESS mutation buffs
+    const baseDefense = Math.min(100, 10 + githubData.starsCount * 4);
+    state.defense = Math.max(state.defense || 10, baseDefense);
+
     state.cpuLoad = Math.min(100, 10 + (githubData.openIssuesCount * 15) + (Math.random() * 8));
     state.cpuLoad = Math.round(state.cpuLoad);
 

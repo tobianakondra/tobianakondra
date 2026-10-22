@@ -4,6 +4,10 @@ on:
   issues:
     types: [opened]
 
+concurrency:
+  group: vastoworm-execution
+  cancel-in-progress: false
+
 permissions:
   contents: write
   issues: write
@@ -43,6 +47,7 @@ jobs:
           node src/index.js --action="${{ steps.parse_action.outputs.action }}" --user="${{ github.event.issue.user.login }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER_TOKEN: ${{ secrets.USER_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Commit and Push Evolution
@@ -52,6 +57,7 @@ jobs:
           git add data/state.json assets/virus.svg README.md
           if ! git diff --cached --quiet; then
             git commit -m "🧬 [VastoWorm] mutated by @${{ github.event.issue.user.login }} [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           else
             echo "No changes to commit"

@@ -1,12 +1,16 @@
-name: VastoWorm Hourly Cycle
+name: VastoWorm Autonomous Cycle
 
 on:
   push:
     branches:
       - main
   schedule:
-    - cron: '0 * * * *' # Run hourly
-  workflow_dispatch: # Allow manual trigger
+    - cron: '*/30 * * * *' # Run every 30 minutes
+  workflow_dispatch: # Allow manual trigger anytime
+
+concurrency:
+  group: vastoworm-execution
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -25,10 +29,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Run Hourly Cycle
+      - name: Run Cycle Engine
         run: node src/index.js --before="${{ github.event.before }}" --after="${{ github.event.after }}" --event="${{ github.event_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER_TOKEN: ${{ secrets.USER_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Commit and Push Changes
@@ -38,6 +43,7 @@ jobs:
           git add data/state.json assets/virus.svg README.md
           if ! git diff --cached --quiet; then
             git commit -m "🧬 [VastoWorm] cycle auto-update [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           else
             echo "No changes to commit"

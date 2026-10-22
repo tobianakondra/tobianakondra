@@ -10,7 +10,9 @@ const DEFAULT_STATE = {
   defense: 10,
   stage: "DORMANT",
   history: ["VIRUS PROTOCOL CONSTRUCTED. Awaiting execution."],
-  lastUpdated: new Date().toISOString()
+  lastUpdated: new Date().toISOString(),
+  lastEventId: null,
+  lastEventTimestamp: new Date().toISOString()
 };
 
 // Ensure data directory exists
@@ -65,7 +67,18 @@ export function addHistoryLog(state, message) {
  * Hourly Cron update logic
  */
 export function updateStateHourly(state, githubData) {
-  const { commitsCount = 0, starsCount = 0, openIssuesCount = 0 } = githubData;
+  const {
+    commitsCount = 0,
+    activeRepos = [],
+    newestEventId,
+    newestEventTimestamp,
+    starsCount = 0,
+    openIssuesCount = 0
+  } = githubData;
+
+  // Persist latest event tracking
+  if (newestEventId) state.lastEventId = newestEventId;
+  if (newestEventTimestamp) state.lastEventTimestamp = newestEventTimestamp;
 
   // 1. Time Decay: Virus integrity drops hourly by 1.5% due to firewall defenses
   const oldIntegrity = state.integrity;
@@ -75,8 +88,7 @@ export function updateStateHourly(state, githubData) {
     addHistoryLog(state, "WARNING: Core integrity under 40%.");
   }
 
-  // 2. Commit activity restores integrity & spreads infection
-  // Commits represent replication cycles
+  // 2. Commit activity restores integrity & spreads infection across ANY repository
   if (commitsCount > 0) {
     const integrityGain = commitsCount * 12;
     state.integrity = Math.min(100, state.integrity + integrityGain);
@@ -85,18 +97,27 @@ export function updateStateHourly(state, githubData) {
     const spreadGain = commitsCount * 2.5;
     state.infectionRate = Math.min(100, state.infectionRate + spreadGain);
     
-    addHistoryLog(state, `Replication cycle: +${integrityGain}% integrity, +${spreadGain.toFixed(1)}% spread.`);
+    // Format repo names nicely
+    const repoNames = activeRepos.map(r => r.includes('/') ? r.split('/')[1] : r);
+    const repoSummary = repoNames.length > 0 ? ` [${repoNames.slice(0, 2).join(', ')}${repoNames.length > 2 ? '...' : ''}]` : '';
+    addHistoryLog(state, `Replication: +${commitsCount} commit${commitsCount > 1 ? 's' : ''}${repoSummary} (+${spreadGain.toFixed(1)}% spread, +${integrityGain}% integrity).`);
+  } else {
+    // 3. Autonomous biological replication when virus is healthy (>= 50% integrity)
+    if (state.integrity >= 50) {
+      const passiveSpread = 0.3;
+      state.infectionRate = Math.min(100, state.infectionRate + passiveSpread);
+    }
   }
 
-  // 3. Stars build the firewall defense shield
-  // More stars = higher defense shield capacity
-  state.defense = Math.min(100, 10 + starsCount * 4);
+  // 4. Stars build the firewall defense shield (preserves fortress mutation buffs)
+  const baseDefense = Math.min(100, 10 + starsCount * 4);
+  state.defense = Math.max(state.defense || 10, baseDefense);
 
-  // 4. CPU load scales with repository issues and pull requests
+  // 5. CPU load scales with repository issues and pull requests
   state.cpuLoad = Math.min(100, 10 + (openIssuesCount * 15) + (Math.random() * 8));
   state.cpuLoad = Math.round(state.cpuLoad);
 
-  // 5. Update mutation stage
+  // 6. Update mutation stage
   state.stage = determineStage(state.infectionRate);
 }
 
@@ -106,6 +127,7 @@ export function updateStateHourly(state, githubData) {
 export function processInteraction(state, action, username) {
   // Clean input
   const act = action.toUpperCase();
+  let message = "UNKNOWN PROTOCOL IDENTIFIED.";
 
   if (act === "INJECT_PAYLOAD") {
     // Injecting payload spreads the infection
@@ -117,13 +139,10 @@ export function processInteraction(state, action, username) {
     
     const log = `Payload injected by @${username}. Spread +${spreadBonus.toFixed(1)}%`;
     addHistoryLog(state, log);
-    return `VIRAL PROPAGATION SUCCESS. Global infection level increased by +${spreadBonus.toFixed(1)}%. Core database integrity stabilized (+4.0%).`;
+    message = `VIRAL PROPAGATION SUCCESS. Global infection level increased by +${spreadBonus.toFixed(1)}%. Core database integrity stabilized (+4.0%).`;
   } 
-  
   else if (act === "DEPLOY_ANTIVIRUS") {
     // Antivirus attempts to clean the virus
-    // Formula: net reduction is mitigated by firewall defense level
-    // Max reduction is 10%. If defense is 100, reduction is 1% (can't go below 10% effectiveness)
     const mitigation = state.defense / 100; // 0 to 1
     const baseDamage = 12; // Base clean percentage
     const actualDamage = Math.max(1.5, baseDamage * (1 - mitigation * 0.9));
@@ -133,9 +152,8 @@ export function processInteraction(state, action, username) {
     
     const log = `Antivirus deployed by @${username}. Mitigation: ${Math.round(mitigation*100)}% (Net: -${actualDamage.toFixed(1)}%)`;
     addHistoryLog(state, log);
-    return `ANTIVIRUS DEFENSE INITIATED. Repository shield absorbed ${Math.round(mitigation * 100)}% of the vaccine payload. Net quarantine reduction: -${actualDamage.toFixed(1)}% infection. Core structural damage: -8.0% integrity.`;
+    message = `ANTIVIRUS DEFENSE INITIATED. Repository shield absorbed ${Math.round(mitigation * 100)}% of the vaccine payload. Net quarantine reduction: -${actualDamage.toFixed(1)}% infection. Core structural damage: -8.0% integrity.`;
   } 
-  
   else if (act === "TRIGGER_MUTATION") {
     // Dynamic random outcome
     const roll = Math.random();
@@ -165,10 +183,10 @@ export function processInteraction(state, action, username) {
     }
 
     addHistoryLog(state, `Mutation triggered by @${username}: ${outcome}`);
-    return `MUTATION SEQUENCE COMPLETE.\nOutcome: ${outcome}\nDetails: ${description}`;
+    message = `MUTATION SEQUENCE COMPLETE.\nOutcome: ${outcome}\nDetails: ${description}`;
   }
 
-  // Update mutation stage after any changes
+  // Update mutation stage after any changes (guaranteed execution)
   state.stage = determineStage(state.infectionRate);
-  return "UNKNOWN PROTOCOL IDENTIFIED.";
+  return message;
 }
