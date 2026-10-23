@@ -1,6 +1,6 @@
 {
   "infectionRate": 34.08,
-  "integrity": 32,
+  "integrity": 30.5,
   "cpuLoad": 13,
   "defense": 58,
   "stage": "MUTATING",
@@ -11,7 +11,7 @@
     "[20:46] Replication: +2 commits [tobianakondra] (+5.0% spread, +24% integrity).",
     "[08:17] Payload injected by @tobianakondra. Spread +6.0%"
   ],
-  "lastUpdated": "2026-10-23T12:53:52.727Z",
+  "lastUpdated": "2026-10-23T17:32:00.699Z",
   "lastEventTimestamp": "2026-10-04T19:05:23Z",
   "lastEventId": "23008576389"
 }
