@@ -1,7 +1,7 @@
 {
-  "infectionRate": 41.58,
-  "integrity": 57.5,
-  "cpuLoad": 12,
+  "infectionRate": 41.879999999999995,
+  "integrity": 56,
+  "cpuLoad": 15,
   "defense": 58,
   "stage": "MUTATING",
   "history": [
@@ -11,7 +11,7 @@
     "[07:26] Replication: +2 commits [LekkRek] (+5.0% spread, +24% integrity).",
     "[16:06] Replication: +1 commit [LekkRek] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-10-24T16:06:25.453Z",
+  "lastUpdated": "2026-10-24T18:52:19.398Z",
   "lastEventTimestamp": "2026-10-24T09:32:50Z",
   "lastEventId": "25026719756"
 }
