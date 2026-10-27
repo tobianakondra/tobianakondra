@@ -92,13 +92,13 @@
         GLOBAL INFECTION RATE
       </text>
       <text x="260" y="10" fill="#ff0055" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end" class="neon-text">
-        69.9%
+        70.2%
       </text>
       <g transform="translate(0, 18)">
         <!-- Background track -->
         <rect x="0" y="0" width="260" height="6" fill="#1a1c24" rx="3" />
         <!-- Filled bar -->
-        <rect x="0" y="0" width="181.68799999999993" height="6" fill="#ff0055" rx="3" filter="url(#glow-red)" />
+        <rect x="0" y="0" width="182.4679999999999" height="6" fill="#ff0055" rx="3" filter="url(#glow-red)" />
       </g>
     </g>
 
@@ -108,7 +108,7 @@
         VIRUS DATA INTEGRITY
       </text>
       <text x="260" y="10" fill="#00ff66" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
-        91%
+        89.5%
       </text>
       <g transform="translate(0, 18)">
         <rect x="30" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="45" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="60" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="75" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="90" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="105" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="120" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="135" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="150" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="165" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="180" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="195" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="210" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="225" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="240" y="0" width="10" height="15" fill="#00ff66" rx="2" /><rect x="255" y="0" width="10" height="15" fill="#1a1c24" rx="2" /><rect x="270" y="0" width="10" height="15" fill="#1a1c24" rx="2" />
@@ -121,14 +121,14 @@
         HOST CPU UTILIZATION
       </text>
       <text x="260" y="10" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
-        18%
+        12%
       </text>
       <g transform="translate(0, 18)">
         <!-- Pulse graph line simulation -->
         <rect x="0" y="0" width="260" height="25" fill="#16171f" rx="3" />
         <path d="M 5 15 L 40 15 L 50 5 L 60 20 L 70 12 L 100 12 L 110 2 L 120 23 L 130 10 L 160 10 L 170 20 L 180 5 L 190 15 L 255 15" 
               fill="none" stroke="#00f0ff" stroke-width="1.5">
-          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.1s" repeatCount="indefinite" />
+          <animate attributeName="stroke-dasharray" values="300;0;300" dur="5.4s" repeatCount="indefinite" />
         </path>
       </g>
     </g>
@@ -175,8 +175,10 @@
            <animateMotion dur="3s" repeatCount="indefinite" path="M 450 120 L 540 100" />
          </circle>
     
-      <line x1="540" y1="100" x2="650" y2="160" stroke="rgba(0,240,255,0.15)" stroke-width="1" stroke-dasharray="none" />
-      
+      <line x1="540" y1="100" x2="650" y2="160" stroke="rgba(255,0,85,0.7)" stroke-width="1.5" stroke-dasharray="4 4" />
+      <circle r="2" fill="#ff0055">
+           <animateMotion dur="3s" repeatCount="indefinite" path="M 540 100 L 650 160" />
+         </circle>
     
       <line x1="650" y1="160" x2="730" y2="120" stroke="rgba(0,240,255,0.15)" stroke-width="1" stroke-dasharray="none" />
       
@@ -194,8 +196,10 @@
            <animateMotion dur="3s" repeatCount="indefinite" path="M 500 230 L 580 240" />
          </circle>
     
-      <line x1="580" y1="240" x2="650" y2="160" stroke="rgba(0,240,255,0.15)" stroke-width="1" stroke-dasharray="none" />
-      
+      <line x1="580" y1="240" x2="650" y2="160" stroke="rgba(255,0,85,0.7)" stroke-width="1.5" stroke-dasharray="4 4" />
+      <circle r="2" fill="#ff0055">
+           <animateMotion dur="3s" repeatCount="indefinite" path="M 580 240 L 650 160" />
+         </circle>
     
       <line x1="450" y1="120" x2="730" y2="120" stroke="rgba(0,240,255,0.15)" stroke-width="1" stroke-dasharray="none" />
       
@@ -277,9 +281,12 @@
       </g>
     
       <g>
-        
-        <circle cx="650" cy="160" r="3" fill="#00f0ff" filter="url(#glow-IN)" />
-        <text x="650" y="148" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="9" text-anchor="middle" letter-spacing="1">
+        <circle cx="650" cy="160" r="5" fill="none" stroke="#ff0055" stroke-width="1.5">
+           <animate attributeName="r" values="5;12;5" dur="2s" repeatCount="indefinite" />
+           <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
+         </circle>
+        <circle cx="650" cy="160" r="5" fill="#ff0055" filter="url(#glow-IN)" />
+        <text x="650" y="148" fill="#ff0055" font-family="'Share Tech Mono', monospace" font-size="9" text-anchor="middle" letter-spacing="1">
           IN-BOM
         </text>
         <filter id="glow-IN">
