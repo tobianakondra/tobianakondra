@@ -1,7 +1,7 @@
 {
-  "infectionRate": 70.77999999999996,
-  "integrity": 86.5,
-  "cpuLoad": 17,
+  "infectionRate": 71.07999999999996,
+  "integrity": 85,
+  "cpuLoad": 10,
   "defense": 58,
   "stage": "OVERLORD",
   "history": [
@@ -11,7 +11,7 @@
     "[18:28] Replication: +2 commits [LekkRek] (+5.0% spread, +24% integrity).",
     "[21:02] Replication: +1 commit [LekkRek] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-10-27T14:42:19.601Z",
+  "lastUpdated": "2026-10-27T19:42:31.690Z",
   "lastEventTimestamp": "2026-10-25T15:08:23Z",
   "lastEventId": "25226981944"
 }
