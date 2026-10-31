@@ -18,8 +18,8 @@ WIDTH, HEIGHT = 420, 205
 CX, CY, RADIUS = 210, 100, 68
 CANVAS_SIZE = (800, 400)
 PANEL_ORIGIN = (350, 85)
-FRAME_COUNT = 48
-FRAME_DURATION_MS = 80
+FRAME_COUNT = 60
+FRAME_DURATION_MS = 100
 
 NODES = [
     ("DKR", "DAKAR, SENEGAL", -17.45, 14.69, 14),
@@ -84,6 +84,52 @@ def make_frame(frame_index, infection_rate):
     return image
 
 
+def animate_dashboard(image, frame_index, state):
+    """Recreate the SVG dashboard's motion in the GIF, which GitHub can animate."""
+    draw = ImageDraw.Draw(image)
+    phase = frame_index / FRAME_COUNT
+
+    # CPU waveform: preserve the panel and make its signal travel continuously.
+    draw.rounded_rectangle((65, 208, 325, 233), radius=3, fill="#16171f")
+    points = [(70, 223), (105, 223), (115, 213), (125, 228), (135, 220),
+              (165, 220), (175, 210), (185, 231), (195, 218), (225, 218),
+              (235, 228), (245, 213), (255, 223), (320, 223)]
+    intensity = 130 + int(80 * (0.5 + 0.5 * math.sin(phase * math.tau)))
+    cyan = (0, intensity, 255)
+    draw.line(points, fill=cyan, width=2, joint="curve")
+    travel = (frame_index / FRAME_COUNT) * (len(points) - 1)
+    segment = min(int(travel), len(points) - 2)
+    fraction = travel - segment
+    x = points[segment][0] + (points[segment + 1][0] - points[segment][0]) * fraction
+    y = points[segment][1] + (points[segment + 1][1] - points[segment][1]) * fraction
+    draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill="#b9ffff")
+
+    # System status light blinks once per second.
+    stage = state.get("stage", "DORMANT")
+    status = "#00ff66" if stage == "DORMANT" else "#ffaa00" if stage == "MUTATING" else "#ff0055"
+    draw.ellipse((724, 14, 736, 26), fill="#0b0c10")
+    light = 1 if frame_index % 10 < 5 else 0.2
+    draw.ellipse((726, 16, 734, 24), fill=status if light > 0.5 else "#272a34")
+
+    # The terminal scanline travels through the log window; the command cursor blinks.
+    scan_y = 310 + int((frame_index % 40) / 39 * 64)
+    scan = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    scan_draw = ImageDraw.Draw(scan)
+    scan_draw.line((25, scan_y, 775, scan_y), fill=(0, 240, 255, 100), width=1)
+    image_rgba = image.convert("RGBA")
+    image_rgba.alpha_composite(scan)
+    image.paste(image_rgba.convert("RGB"))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((758, 348, 770, 364), fill="#0a0b10")
+    if frame_index % 10 < 5:
+        draw.rectangle((760, 350, 768, 362), fill="#00ff66")
+
+    # Brief color split recreates the header's original glitch animation.
+    if frame_index % 40 in (38, 39):
+        draw.text((27, 13), "VASTOWORM.SYS :: INFILTRATION_PROTOCOL_ACTIVE", font=font(12), fill="#00f0ff")
+        draw.text((23, 15), "VASTOWORM.SYS :: INFILTRATION_PROTOCOL_ACTIVE", font=font(12), fill="#ff0055")
+
+
 def main():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
     infection_rate = float(state.get("infectionRate", 0))
@@ -101,6 +147,7 @@ def main():
     for index in range(FRAME_COUNT):
         frame = background.copy()
         frame.paste(make_frame(index, infection_rate), PANEL_ORIGIN)
+        animate_dashboard(frame, index, state)
         frames.append(frame)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     frames[0].save(
