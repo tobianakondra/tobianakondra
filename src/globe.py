@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
+LANDMASK_PATH = ROOT / "data" / "landmask.png"
 SVG_PATH = ROOT / "assets" / "virus.svg"
 OUTPUT_PATH = ROOT / "assets" / "dashboard.gif"
 WIDTH, HEIGHT = 375, 205
@@ -48,7 +49,23 @@ def project(lon, lat, rotation):
     return x, y, visible
 
 
-def make_frame(frame_index, infection_rate):
+def land_pixel(lon, lat):
+    x = int((lon + 180) * 2) % 720
+    y = max(0, min(359, int((90 - lat) * 2)))
+    return x, y
+
+
+def is_land(land_mask, lon, lat):
+    return land_mask.getpixel(land_pixel(lon, lat)) > 0
+
+
+def is_coast(land_mask, lon, lat):
+    x, y = land_pixel(lon, lat)
+    neighbors = ((x - 1) % 720, y), ((x + 1) % 720, y), (x, max(0, y - 1)), (x, min(359, y + 1))
+    return any(land_mask.getpixel(point) == 0 for point in neighbors)
+
+
+def make_frame(frame_index, infection_rate, land_mask):
     rotation = frame_index * (360 / FRAME_COUNT)
     image = Image.new("RGB", (WIDTH, HEIGHT), "#0a0b10")
     draw = ImageDraw.Draw(image)
@@ -58,13 +75,24 @@ def make_frame(frame_index, infection_rate):
         draw.ellipse((CX - radius, CY - radius, CX + radius, CY + radius), outline=color, width=width)
     draw.ellipse((CX - RADIUS + 2, CY - RADIUS + 2, CX + RADIUS - 2, CY + RADIUS - 2), fill="#0b151e")
 
-    # Dotted latitude and longitude grid, with only the visible hemisphere drawn.
-    for latitude in range(-78, 79, 10):
-        for longitude in range(-180, 180, 8):
+    # Sparse ocean dots, with accurate Natural Earth country outlines as land dots.
+    for latitude in range(-75, 76, 15):
+        for longitude in range(-180, 180, 15):
             x, y, visible = project(longitude, latitude, rotation)
-            if visible:
-                brightness = 105 if abs(latitude) < 50 else 65
-                draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(0, brightness, min(255, brightness + 35)))
+            if visible and not is_land(land_mask, longitude, latitude):
+                draw.ellipse((x - 1, y - 1, x + 1, y + 1), fill="#12414d")
+
+    for latitude in range(-78, 79, 4):
+        for longitude in range(-180, 180, 4):
+            if not is_land(land_mask, longitude, latitude):
+                continue
+            x, y, visible = project(longitude, latitude, rotation)
+            if not visible:
+                continue
+            coast = is_coast(land_mask, longitude, latitude)
+            radius = 2.6 if coast else 1.8
+            color = "#43f5ff" if coast else "#00a8c8"
+            draw.ellipse((x - radius, y - radius, x + radius, y + radius), fill=color)
 
     # City markers rotate with their longitude and fade on the far side.
     for code, _name, longitude, latitude, threshold in NODES:
@@ -184,6 +212,7 @@ def animate_dashboard(image, frame_index, state):
 def main():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
     infection_rate = float(state.get("infectionRate", 0))
+    land_mask = Image.open(LANDMASK_PATH).convert("L")
     try:
         import cairosvg
         background_png = cairosvg.svg2png(url=str(SVG_PATH), output_width=CANVAS_SIZE[0], output_height=CANVAS_SIZE[1])
@@ -197,7 +226,7 @@ def main():
     frames = []
     for index in range(FRAME_COUNT):
         frame = background.copy()
-        frame.paste(make_frame(index, infection_rate), PANEL_ORIGIN)
+        frame.paste(make_frame(index, infection_rate, land_mask), PANEL_ORIGIN)
         animate_dashboard(frame, index, state)
         frames.append(frame)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
