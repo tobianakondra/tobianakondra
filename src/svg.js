@@ -14,14 +14,15 @@ export function generateSVG(state) {
   } = state;
 
   // Determine node infection status based on rate
+  // Coordinates are local to the topology panel, which is translated to x=340.
   const nodes = [
-    { id: "NA", label: "US-NY", x: 450, y: 120, threshold: 14 },
-    { id: "EU", label: "UK-LDN", x: 540, y: 100, threshold: 28 },
-    { id: "SA", label: "BR-RJO", x: 500, y: 230, threshold: 42 },
-    { id: "AF", label: "ZA-JNB", x: 580, y: 240, threshold: 56 },
-    { id: "IN", label: "IN-BOM", x: 650, y: 160, threshold: 70 },
-    { id: "JP", label: "JP-TKY", x: 730, y: 120, threshold: 84 },
-    { id: "AU", label: "AU-SYD", x: 750, y: 240, threshold: 98 }
+    { id: "NA", label: "US-NY", x: 65, y: 105, threshold: 14 },
+    { id: "EU", label: "UK-LDN", x: 165, y: 75, threshold: 28 },
+    { id: "SA", label: "BR-RJO", x: 115, y: 175, threshold: 42 },
+    { id: "AF", label: "ZA-JNB", x: 205, y: 175, threshold: 56 },
+    { id: "IN", label: "IN-BOM", x: 260, y: 115, threshold: 70 },
+    { id: "JP", label: "JP-TKY", x: 335, y: 95, threshold: 84 },
+    { id: "AU", label: "AU-SYD", x: 365, y: 185, threshold: 98 }
   ];
 
   const activeNodes = nodes.map(n => ({
@@ -276,18 +277,13 @@ export function generateSVG(state) {
     <!-- Stylized Dotted World Map Outline (Backdrop) -->
     <!-- Major continents outlines simplified into neon hex dots -->
     <g opacity="0.1" fill="#00f0ff">
-      <!-- North America -->
-      <circle cx="380" cy="100" r="1.5" /><circle cx="400" cy="90" r="1.5" /><circle cx="410" cy="110" r="1.5" /><circle cx="430" cy="120" r="1.5" /><circle cx="450" cy="110" r="1.5" /><circle cx="400" cy="120" r="1.5" />
-      <!-- South America -->
-      <circle cx="460" cy="190" r="1.5" /><circle cx="480" cy="200" r="1.5" /><circle cx="490" cy="220" r="1.5" /><circle cx="500" cy="240" r="1.5" /><circle cx="510" cy="210" r="1.5" />
-      <!-- Europe -->
-      <circle cx="520" cy="90" r="1.5" /><circle cx="530" cy="100" r="1.5" /><circle cx="540" cy="90" r="1.5" /><circle cx="550" cy="110" r="1.5" />
-      <!-- Africa -->
-      <circle cx="530" cy="160" r="1.5" /><circle cx="550" cy="170" r="1.5" /><circle cx="560" cy="190" r="1.5" /><circle cx="580" cy="220" r="1.5" /><circle cx="590" cy="240" r="1.5" /><circle cx="570" cy="180" r="1.5" />
-      <!-- Asia -->
-      <circle cx="610" cy="100" r="1.5" /><circle cx="630" cy="110" r="1.5" /><circle cx="650" cy="90" r="1.5" /><circle cx="670" cy="110" r="1.5" /><circle cx="690" cy="100" r="1.5" /><circle cx="710" cy="120" r="1.5" /><circle cx="660" cy="140" r="1.5" /><circle cx="640" cy="150" r="1.5" /><circle cx="680" cy="160" r="1.5" />
-      <!-- Australia -->
-      <circle cx="720" cy="230" r="1.5" /><circle cx="740" cy="240" r="1.5" /><circle cx="750" cy="250" r="1.5" /><circle cx="730" cy="260" r="1.5" />
+      <!-- Faint geographic texture, positioned in the panel's local coordinates -->
+      <circle cx="45" cy="85" r="1.5" /><circle cx="55" cy="75" r="1.5" /><circle cx="65" cy="95" r="1.5" /><circle cx="80" cy="105" r="1.5" /><circle cx="90" cy="95" r="1.5" />
+      <circle cx="105" cy="155" r="1.5" /><circle cx="115" cy="170" r="1.5" /><circle cx="125" cy="185" r="1.5" /><circle cx="135" cy="165" r="1.5" />
+      <circle cx="150" cy="75" r="1.5" /><circle cx="160" cy="85" r="1.5" /><circle cx="170" cy="70" r="1.5" /><circle cx="180" cy="90" r="1.5" />
+      <circle cx="195" cy="140" r="1.5" /><circle cx="205" cy="160" r="1.5" /><circle cx="215" cy="180" r="1.5" /><circle cx="225" cy="155" r="1.5" />
+      <circle cx="245" cy="90" r="1.5" /><circle cx="260" cy="100" r="1.5" /><circle cx="280" cy="80" r="1.5" /><circle cx="300" cy="100" r="1.5" /><circle cx="325" cy="90" r="1.5" /><circle cx="345" cy="110" r="1.5" />
+      <circle cx="345" cy="175" r="1.5" /><circle cx="360" cy="185" r="1.5" /><circle cx="375" cy="195" r="1.5" />
     </g>
 
     <!-- Map Connections and Infection Nodes -->
