@@ -14,8 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
 SVG_PATH = ROOT / "assets" / "virus.svg"
 OUTPUT_PATH = ROOT / "assets" / "dashboard.gif"
-WIDTH, HEIGHT = 420, 205
-CX, CY, RADIUS = 210, 100, 68
+WIDTH, HEIGHT = 440, 205
+CX, CY, RADIUS = 220, 94, 76
 CANVAS_SIZE = (800, 400)
 PANEL_ORIGIN = (350, 85)
 FRAME_COUNT = 60
@@ -59,12 +59,12 @@ def make_frame(frame_index, infection_rate):
     draw.ellipse((CX - RADIUS + 2, CY - RADIUS + 2, CX + RADIUS - 2, CY + RADIUS - 2), fill="#0b151e")
 
     # Dotted latitude and longitude grid, with only the visible hemisphere drawn.
-    for latitude in range(-72, 73, 12):
+    for latitude in range(-78, 79, 10):
         for longitude in range(-180, 180, 8):
             x, y, visible = project(longitude, latitude, rotation)
             if visible:
-                brightness = 90 if abs(latitude) < 50 else 55
-                draw.ellipse((x - 1.5, y - 1.5, x + 1.5, y + 1.5), fill=(0, brightness, min(255, brightness + 35)))
+                brightness = 105 if abs(latitude) < 50 else 65
+                draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(0, brightness, min(255, brightness + 35)))
 
     # City markers rotate with their longitude and fade on the far side.
     for code, _name, longitude, latitude, threshold in NODES:
@@ -73,14 +73,14 @@ def make_frame(frame_index, infection_rate):
         color = "#ff0055" if infected else "#00f0ff"
         if not visible:
             color = "#632139" if infected else "#14505b"
-        draw.ellipse((x - 8, y - 8, x + 8, y + 8), outline=color, width=2)
-        draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=color)
+        draw.ellipse((x - 10, y - 10, x + 10, y + 10), outline=color, width=2)
+        draw.ellipse((x - 4, y - 4, x + 4, y + 4), fill=color)
         if visible:
-            draw.text((x + 11, y - 8), code, font=font(12), fill=color)
+            draw.text((x + 13, y - 9), code, font=font(14), fill=color)
 
     # Fixed city key keeps full place names readable as markers move.
-    draw.text((WIDTH // 2, 187), "DAKAR, SENEGAL · NEW YORK, USA · LONDON, UK", font=font(8), fill="#aab4c8", anchor="mm")
-    draw.text((WIDTH // 2, 199), "TOKYO, JAPAN · JOHANNESBURG, SOUTH AFRICA", font=font(8), fill="#aab4c8", anchor="mm")
+    draw.text((WIDTH // 2, 185), "DAKAR, SENEGAL · NEW YORK, USA · LONDON, UK", font=font(10), fill="#aab4c8", anchor="mm")
+    draw.text((WIDTH // 2, 199), "TOKYO, JAPAN · JOHANNESBURG, SOUTH AFRICA", font=font(10), fill="#aab4c8", anchor="mm")
     return image
 
 
@@ -89,15 +89,21 @@ def animate_dashboard(image, frame_index, state):
     draw = ImageDraw.Draw(image)
     phase = frame_index / FRAME_COUNT
 
+    def left_x(value):
+        return round(1.05 * value - 5.75)
+
+    def left_y(value):
+        return round(1.05 * value - 11.25)
+
     # Sweep highlights through both live meter bars without changing their values.
     infection = max(0, min(100, float(state.get("infectionRate", 0))))
     infection_end = 40 + 2.6 * infection
-    draw.rounded_rectangle((40, 108, 300, 114), radius=3, fill="#1a1c24")
-    draw.rounded_rectangle((40, 108, infection_end, 114), radius=3, fill="#ff0055")
+    draw.rounded_rectangle((left_x(40), left_y(108), left_x(300), left_y(114)), radius=3, fill="#1a1c24")
+    draw.rounded_rectangle((left_x(40), left_y(108), left_x(infection_end), left_y(114)), radius=3, fill="#ff0055")
     if infection_end > 44:
         sweep_x = 40 + (infection_end - 40) * ((frame_index % 36) / 35)
         glint = Image.new("RGBA", image.size, (0, 0, 0, 0))
-        ImageDraw.Draw(glint).rounded_rectangle((sweep_x - 3, 107, sweep_x + 3, 115), radius=2, fill=(255, 210, 230, 220))
+        ImageDraw.Draw(glint).rounded_rectangle((left_x(sweep_x - 3), left_y(107), left_x(sweep_x + 3), left_y(115)), radius=2, fill=(255, 210, 230, 220))
         image_rgba = image.convert("RGBA")
         image_rgba.alpha_composite(glint)
         image.paste(image_rgba.convert("RGB"))
@@ -108,21 +114,22 @@ def animate_dashboard(image, frame_index, state):
     draw = ImageDraw.Draw(image)
     for index in range(17):
         x0 = 70 + index * 15
-        draw.rounded_rectangle((x0, 158, x0 + 10, 173), radius=2,
+        draw.rounded_rectangle((left_x(x0), left_y(158), left_x(x0 + 10), left_y(173)), radius=2,
                                fill=integrity_color if index < segments else "#1a1c24")
     if segments:
         sweep_x = 70 + (segments * 15 - 5) * ((frame_index % 36) / 35)
         glint = Image.new("RGBA", image.size, (0, 0, 0, 0))
-        ImageDraw.Draw(glint).rounded_rectangle((sweep_x - 3, 157, sweep_x + 3, 174), radius=2, fill=(235, 255, 255, 190))
+        ImageDraw.Draw(glint).rounded_rectangle((left_x(sweep_x - 3), left_y(157), left_x(sweep_x + 3), left_y(174)), radius=2, fill=(235, 255, 255, 190))
         image_rgba = image.convert("RGBA")
         image_rgba.alpha_composite(glint)
         image.paste(image_rgba.convert("RGB"))
 
     # CPU waveform: preserve the panel and make its signal travel continuously.
-    draw.rounded_rectangle((65, 208, 325, 233), radius=3, fill="#16171f")
-    points = [(70, 223), (105, 223), (115, 213), (125, 228), (135, 220),
-              (165, 220), (175, 210), (185, 231), (195, 218), (225, 218),
-              (235, 228), (245, 213), (255, 223), (320, 223)]
+    draw.rounded_rectangle((left_x(40), left_y(208), left_x(300), left_y(233)), radius=3, fill="#16171f")
+    local_points = [(5, 15), (40, 15), (50, 5), (60, 20), (70, 12),
+                    (100, 12), (110, 2), (120, 23), (130, 10), (160, 10),
+                    (170, 20), (180, 5), (190, 15), (255, 15)]
+    points = [(left_x(40 + x), left_y(208 + y)) for x, y in local_points]
     intensity = 130 + int(80 * (0.5 + 0.5 * math.sin(phase * math.tau)))
     cyan = (0, intensity, 255)
     draw.line(points, fill=cyan, width=2, joint="curve")
@@ -143,12 +150,12 @@ def animate_dashboard(image, frame_index, state):
     defense = max(0, min(100, int(state.get("defense", 10))))
     pulse = int(90 + 130 * (0.5 + 0.5 * math.sin(phase * math.tau)))
     shield_color = (0, pulse, 255)
-    draw.rounded_rectangle((214, 247, 321, 278), radius=4, fill="#0a0b10", outline=shield_color, width=1)
-    draw.text((221, 253), f"SHIELD {defense:02d}", font=font(9), fill=shield_color)
-    draw.rounded_rectangle((221, 266, 313, 271), radius=2, fill="#1a1c24")
-    draw.rounded_rectangle((221, 266, 221 + 0.92 * defense, 271), radius=2, fill="#00f0ff")
+    draw.rounded_rectangle((left_x(214), left_y(247), left_x(321), left_y(278)), radius=4, fill="#0a0b10", outline=shield_color, width=1)
+    draw.text((left_x(221), left_y(253)), f"SHIELD {defense:02d}", font=font(9), fill=shield_color)
+    draw.rounded_rectangle((left_x(221), left_y(266), left_x(313), left_y(271)), radius=2, fill="#1a1c24")
+    draw.rounded_rectangle((left_x(221), left_y(266), left_x(221 + 0.92 * defense), left_y(271)), radius=2, fill="#00f0ff")
     shield_glint_x = 221 + (0.92 * defense) * ((frame_index % 30) / 29)
-    draw.rectangle((shield_glint_x - 1, 265, shield_glint_x + 1, 272), fill="#d5ffff")
+    draw.rectangle((left_x(shield_glint_x - 1), left_y(265), left_x(shield_glint_x + 1), left_y(272)), fill="#d5ffff")
 
     # System status light blinks once per second.
     stage = state.get("stage", "DORMANT")
