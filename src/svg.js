@@ -259,7 +259,7 @@ export function generateSVG(state) {
     <!-- Vital 4: Network Security Shield Resistance -->
     <g transform="translate(25, 205)">
       <text x="0" y="10" fill="#8892b0" font-family="'Share Tech Mono', monospace" font-size="11" letter-spacing="1">
-        FIREWALL PENETRATION RESISTANCE
+        FIREWALL RESISTANCE
       </text>
       <text x="260" y="10" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" text-anchor="end">
         SHD_LVL: ${defense}

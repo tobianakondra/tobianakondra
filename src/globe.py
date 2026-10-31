@@ -89,6 +89,35 @@ def animate_dashboard(image, frame_index, state):
     draw = ImageDraw.Draw(image)
     phase = frame_index / FRAME_COUNT
 
+    # Sweep highlights through both live meter bars without changing their values.
+    infection = max(0, min(100, float(state.get("infectionRate", 0))))
+    infection_end = 40 + 2.6 * infection
+    draw.rounded_rectangle((40, 108, 300, 114), radius=3, fill="#1a1c24")
+    draw.rounded_rectangle((40, 108, infection_end, 114), radius=3, fill="#ff0055")
+    if infection_end > 44:
+        sweep_x = 40 + (infection_end - 40) * ((frame_index % 36) / 35)
+        glint = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        ImageDraw.Draw(glint).rounded_rectangle((sweep_x - 3, 107, sweep_x + 3, 115), radius=2, fill=(255, 210, 230, 220))
+        image_rgba = image.convert("RGBA")
+        image_rgba.alpha_composite(glint)
+        image.paste(image_rgba.convert("RGB"))
+
+    integrity = max(0, min(100, float(state.get("integrity", 100))))
+    segments = round(integrity / 100 * 17)
+    integrity_color = "#00ff66" if integrity > 75 else "#ffaa00" if integrity > 40 else "#ff0055"
+    draw = ImageDraw.Draw(image)
+    for index in range(17):
+        x0 = 70 + index * 15
+        draw.rounded_rectangle((x0, 158, x0 + 10, 173), radius=2,
+                               fill=integrity_color if index < segments else "#1a1c24")
+    if segments:
+        sweep_x = 70 + (segments * 15 - 5) * ((frame_index % 36) / 35)
+        glint = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        ImageDraw.Draw(glint).rounded_rectangle((sweep_x - 3, 157, sweep_x + 3, 174), radius=2, fill=(235, 255, 255, 190))
+        image_rgba = image.convert("RGBA")
+        image_rgba.alpha_composite(glint)
+        image.paste(image_rgba.convert("RGB"))
+
     # CPU waveform: preserve the panel and make its signal travel continuously.
     draw.rounded_rectangle((65, 208, 325, 233), radius=3, fill="#16171f")
     points = [(70, 223), (105, 223), (115, 213), (125, 228), (135, 220),
@@ -98,11 +127,28 @@ def animate_dashboard(image, frame_index, state):
     cyan = (0, intensity, 255)
     draw.line(points, fill=cyan, width=2, joint="curve")
     travel = (frame_index / FRAME_COUNT) * (len(points) - 1)
-    segment = min(int(travel), len(points) - 2)
-    fraction = travel - segment
-    x = points[segment][0] + (points[segment + 1][0] - points[segment][0]) * fraction
-    y = points[segment][1] + (points[segment + 1][1] - points[segment][1]) * fraction
-    draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill="#b9ffff")
+
+    def along_path(distance):
+        distance = max(0, min(len(points) - 1, distance))
+        segment = min(int(distance), len(points) - 2)
+        fraction = distance - segment
+        return tuple(points[segment][axis] + (points[segment + 1][axis] - points[segment][axis]) * fraction for axis in (0, 1))
+
+    head = along_path(travel)
+    tail = along_path(travel - 1.5)
+    draw.line((tail, head), fill="#b9ffff", width=4)
+    draw.ellipse((head[0] - 3, head[1] - 3, head[0] + 3, head[1] + 3), fill="#ffffff")
+
+    # Pulsing shield badge gives the firewall stat a visible animation of its own.
+    defense = max(0, min(100, int(state.get("defense", 10))))
+    pulse = int(90 + 130 * (0.5 + 0.5 * math.sin(phase * math.tau)))
+    shield_color = (0, pulse, 255)
+    draw.rounded_rectangle((214, 247, 321, 278), radius=4, fill="#0a0b10", outline=shield_color, width=1)
+    draw.text((221, 253), f"SHIELD {defense:02d}", font=font(9), fill=shield_color)
+    draw.rounded_rectangle((221, 266, 313, 271), radius=2, fill="#1a1c24")
+    draw.rounded_rectangle((221, 266, 221 + 0.92 * defense, 271), radius=2, fill="#00f0ff")
+    shield_glint_x = 221 + (0.92 * defense) * ((frame_index % 30) / 29)
+    draw.rectangle((shield_glint_x - 1, 265, shield_glint_x + 1, 272), fill="#d5ffff")
 
     # System status light blinks once per second.
     stage = state.get("stage", "DORMANT")
