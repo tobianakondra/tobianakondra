@@ -3,6 +3,8 @@
 
 import json
 import math
+import subprocess
+from io import BytesIO
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -10,9 +12,12 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
-OUTPUT_PATH = ROOT / "assets" / "globe.gif"
-WIDTH, HEIGHT = 840, 470
-CX, CY, RADIUS = 420, 220, 150
+SVG_PATH = ROOT / "assets" / "virus.svg"
+OUTPUT_PATH = ROOT / "assets" / "dashboard.gif"
+WIDTH, HEIGHT = 420, 205
+CX, CY, RADIUS = 210, 100, 68
+CANVAS_SIZE = (800, 400)
+PANEL_ORIGIN = (350, 85)
 FRAME_COUNT = 48
 FRAME_DURATION_MS = 80
 
@@ -45,14 +50,8 @@ def project(lon, lat, rotation):
 
 def make_frame(frame_index, infection_rate):
     rotation = frame_index * (360 / FRAME_COUNT)
-    image = Image.new("RGB", (WIDTH, HEIGHT), "#0b0c10")
+    image = Image.new("RGB", (WIDTH, HEIGHT), "#0a0b10")
     draw = ImageDraw.Draw(image)
-
-    # Terminal frame and heading
-    draw.rounded_rectangle((12, 12, WIDTH - 12, HEIGHT - 12), radius=10, outline="#1d2030", width=2)
-    draw.line((12, 54, WIDTH - 12, 54), fill="#1d2030", width=2)
-    draw.text((30, 28), "VASTOWORM.SYS  //  GLOBAL INFECTION TOPOLOGY", font=font(18), fill="#00f0ff", anchor="lm")
-    draw.ellipse((WIDTH - 45, 28, WIDTH - 33, 40), fill="#ff0055" if infection_rate >= 15 else "#00ff66")
 
     # Globe halo and sphere
     for radius, color, width in ((RADIUS + 7, "#12323d", 2), (RADIUS, "#00f0ff", 2)):
@@ -80,16 +79,29 @@ def make_frame(frame_index, infection_rate):
             draw.text((x + 11, y - 8), code, font=font(12), fill=color)
 
     # Fixed city key keeps full place names readable as markers move.
-    draw.line((30, 400, WIDTH - 30, 400), fill="#1d2030", width=2)
-    draw.text((WIDTH // 2, 420), "DAKAR, SENEGAL   ·   NEW YORK, USA   ·   LONDON, UK", font=font(13), fill="#aab4c8", anchor="mm")
-    draw.text((WIDTH // 2, 444), "TOKYO, JAPAN   ·   JOHANNESBURG, SOUTH AFRICA", font=font(13), fill="#aab4c8", anchor="mm")
+    draw.text((WIDTH // 2, 187), "DAKAR, SENEGAL · NEW YORK, USA · LONDON, UK", font=font(8), fill="#aab4c8", anchor="mm")
+    draw.text((WIDTH // 2, 199), "TOKYO, JAPAN · JOHANNESBURG, SOUTH AFRICA", font=font(8), fill="#aab4c8", anchor="mm")
     return image
 
 
 def main():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
     infection_rate = float(state.get("infectionRate", 0))
-    frames = [make_frame(index, infection_rate) for index in range(FRAME_COUNT)]
+    try:
+        import cairosvg
+        background_png = cairosvg.svg2png(url=str(SVG_PATH), output_width=CANVAS_SIZE[0], output_height=CANVAS_SIZE[1])
+    except ImportError:
+        background_png = subprocess.run(
+            ["rsvg-convert", "--width", str(CANVAS_SIZE[0]), "--height", str(CANVAS_SIZE[1]), str(SVG_PATH)],
+            check=True,
+            capture_output=True,
+        ).stdout
+    background = Image.open(BytesIO(background_png)).convert("RGB")
+    frames = []
+    for index in range(FRAME_COUNT):
+        frame = background.copy()
+        frame.paste(make_frame(index, infection_rate), PANEL_ORIGIN)
+        frames.append(frame)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     frames[0].save(
         OUTPUT_PATH,
