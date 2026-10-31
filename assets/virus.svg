@@ -48,7 +48,7 @@
 
   <!-- Cyberpunk Background Grid -->
   <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0, 240, 255, 0.006)" stroke-width="1"/>
+    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0, 240, 255, 0.02)" stroke-width="1"/>
   </pattern>
   <rect width="800" height="400" fill="url(#grid)" />
 
@@ -79,9 +79,9 @@
   </g>
 
   <!-- LEFT COLUMN: SYSTEM VITALS -->
-  <g transform="translate(10, 36) scale(1.05)">
+  <g transform="translate(10, 36) scale(1.15, 1.05)">
     <!-- Section Border -->
-    <rect x="10" y="10" width="310" height="235" fill="rgba(10, 11, 16, 0.7)" stroke="#1d2030" stroke-width="1" rx="3" />
+    <rect x="10" y="10" width="325" height="235" fill="rgba(10, 11, 16, 0.7)" stroke="#1d2030" stroke-width="1" rx="3" />
     <text x="25" y="30" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" letter-spacing="1">
       [ SYSTEM VITALS ]
     </text>
@@ -145,8 +145,8 @@
   </g>
 
   <!-- RIGHT COLUMN: WORLD INFECTION MAP -->
-  <g transform="translate(340, 45)">
-    <rect x="10" y="10" width="440" height="235" fill="rgba(10, 11, 16, 0.7)" stroke="#1d2030" stroke-width="1" rx="3" />
+  <g transform="translate(395, 40)">
+    <rect x="10" y="10" width="375" height="245" fill="rgba(10, 11, 16, 0.7)" stroke="#1d2030" stroke-width="1" rx="3" />
     <text x="25" y="30" fill="#00f0ff" font-family="'Share Tech Mono', monospace" font-size="12" font-weight="bold" letter-spacing="1">
       [ GLOBAL INFECTION TOPOLOGY ]
     </text>

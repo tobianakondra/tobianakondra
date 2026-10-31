@@ -14,10 +14,10 @@ ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
 SVG_PATH = ROOT / "assets" / "virus.svg"
 OUTPUT_PATH = ROOT / "assets" / "dashboard.gif"
-WIDTH, HEIGHT = 440, 205
-CX, CY, RADIUS = 220, 94, 76
+WIDTH, HEIGHT = 375, 205
+CX, CY, RADIUS = 188, 92, 80
 CANVAS_SIZE = (800, 400)
-PANEL_ORIGIN = (350, 85)
+PANEL_ORIGIN = (405, 80)
 FRAME_COUNT = 60
 FRAME_DURATION_MS = 100
 
@@ -90,7 +90,7 @@ def animate_dashboard(image, frame_index, state):
     phase = frame_index / FRAME_COUNT
 
     def left_x(value):
-        return round(1.05 * value - 5.75)
+        return round(1.15 * value - 7.25)
 
     def left_y(value):
         return round(1.05 * value - 11.25)
