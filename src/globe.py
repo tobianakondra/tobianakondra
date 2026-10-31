@@ -130,10 +130,9 @@ def animate_dashboard(image, frame_index, state):
                     (100, 12), (110, 2), (120, 23), (130, 10), (160, 10),
                     (170, 20), (180, 5), (190, 15), (255, 15)]
     points = [(left_x(40 + x), left_y(208 + y)) for x, y in local_points]
-    intensity = 130 + int(80 * (0.5 + 0.5 * math.sin(phase * math.tau)))
-    cyan = (0, intensity, 255)
+    cyan = (0, 180, 255)
     draw.line(points, fill=cyan, width=2, joint="curve")
-    travel = (frame_index / FRAME_COUNT) * (len(points) - 1)
+    travel = ((frame_index % 12) / 12) * (len(points) - 1)
 
     def along_path(distance):
         distance = max(0, min(len(points) - 1, distance))
@@ -142,9 +141,8 @@ def animate_dashboard(image, frame_index, state):
         return tuple(points[segment][axis] + (points[segment + 1][axis] - points[segment][axis]) * fraction for axis in (0, 1))
 
     head = along_path(travel)
-    tail = along_path(travel - 1.5)
-    draw.line((tail, head), fill="#b9ffff", width=4)
-    draw.ellipse((head[0] - 3, head[1] - 3, head[0] + 3, head[1] + 3), fill="#ffffff")
+    draw.ellipse((head[0] - 4, head[1] - 4, head[0] + 4, head[1] + 4), fill="#00f0ff")
+    draw.ellipse((head[0] - 2, head[1] - 2, head[0] + 2, head[1] + 2), fill="#ffffff")
 
     # Pulsing shield badge gives the firewall stat a visible animation of its own.
     defense = max(0, min(100, int(state.get("defense", 10))))
