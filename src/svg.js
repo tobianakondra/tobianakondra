@@ -187,7 +187,8 @@ export function generateSVG(state) {
   <path d="M 790 360 L 790 390 L 760 390" fill="none" stroke="#ff0055" stroke-width="2" />
 
   <!-- HEADER -->
-  <text x="25" y="24" fill="#ff0055" font-family="'Share Tech Mono', monospace" font-size="14" font-weight="bold" class="glitch-text" letter-spacing="1">
+  <rect x="18" y="10" width="450" height="21" rx="3" fill="rgba(11, 12, 16, 0.9)" stroke="rgba(255, 0, 85, 0.5)" stroke-width="0.7" />
+  <text x="25" y="24" fill="#ff315f" stroke="#0b0c10" stroke-width="1.5" paint-order="stroke fill" stroke-linejoin="round" filter="url(#glow-red)" font-family="'Share Tech Mono', monospace" font-size="14" font-weight="bold" class="glitch-text" letter-spacing="1">
     ☠ VASTOWORM.SYS :: INFILTRATION_PROTOCOL_ACTIVE
   </text>
   
