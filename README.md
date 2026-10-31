@@ -5,7 +5,7 @@ Welcome to my profile. The system has been compromised. An autonomous cyber-viru
 <!-- VASTOWORM:START -->
 
 <p align="center">
-  <img src="assets/virus.svg" width="100%" alt="VastoWorm System compromised" />
+  <img src="assets/globe.gif" width="100%" alt="Rotating VastoWorm infection globe with nodes in Dakar, New York, London, Tokyo, and Johannesburg" />
 </p>
 
 ```text

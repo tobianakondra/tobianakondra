@@ -34,7 +34,7 @@ export function generateReadmeContent(state, repoName) {
 
   return `
 <p align="center">
-  <img src="assets/virus.svg" width="100%" alt="VastoWorm System compromised" />
+  <img src="assets/globe.gif" width="100%" alt="Rotating VastoWorm infection globe with nodes in Dakar, New York, London, Tokyo, and Johannesburg" />
 </p>
 
 \`\`\`text

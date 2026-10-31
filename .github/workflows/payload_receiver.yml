@@ -27,6 +27,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Set up Python and Pillow
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python -m pip install Pillow
+
       - name: Parse Action and Validate
         id: parse_action
         run: |
@@ -50,11 +56,14 @@ jobs:
           USER_TOKEN: ${{ secrets.USER_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
+      - name: Generate Rotating Globe
+        run: python src/globe.py
+
       - name: Commit and Push Evolution
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/state.json assets/virus.svg README.md
+          git add data/state.json assets/virus.svg assets/globe.gif README.md
           if ! git diff --cached --quiet; then
             git commit -m "🧬 [VastoWorm] mutated by @${{ github.event.issue.user.login }} [skip ci]"
             git pull --rebase origin ${{ github.ref_name }}
