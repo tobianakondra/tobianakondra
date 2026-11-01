@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 95.5,
-  "cpuLoad": 16,
+  "integrity": 94,
+  "cpuLoad": 13,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[16:22] Replication: +1 commit [LekkRek, tobianakondra] (+2.5% spread, +12% integrity).",
     "[23:29] Replication: +1 commit [LekkRek] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-01T16:12:18.955Z",
+  "lastUpdated": "2026-11-01T20:38:20.385Z",
   "lastEventTimestamp": "2026-10-29T17:46:48Z",
   "lastEventId": "25786652198"
 }
