@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 97,
-  "cpuLoad": 15,
+  "integrity": 95.5,
+  "cpuLoad": 13,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[04:17] Replication: +4 commits [tobianakondra] (+10.0% spread, +48% integrity).",
     "[12:41] Replication: +4 commits [tobianakondra] (+10.0% spread, +48% integrity)."
   ],
-  "lastUpdated": "2026-11-03T03:16:16.359Z",
+  "lastUpdated": "2026-11-03T11:06:29.586Z",
   "lastEventTimestamp": "2026-10-31T14:58:16Z",
   "lastEventId": "25922634331"
 }
