@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 95.5,
-  "cpuLoad": 11,
+  "integrity": 94,
+  "cpuLoad": 14,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[02:47] Replication: +2 commits [prism-os, LekkRek] (+5.0% spread, +24% integrity).",
     "[20:55] Replication: +1 commit [prism-os] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-10T18:44:07.918Z",
+  "lastUpdated": "2026-11-10T23:47:27.775Z",
   "lastEventTimestamp": "2026-10-31T14:58:16Z",
   "lastEventId": "25922634331"
 }
