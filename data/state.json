@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 86.5,
-  "cpuLoad": 15,
+  "integrity": 85,
+  "cpuLoad": 17,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[20:55] Replication: +1 commit [prism-os] (+2.5% spread, +12% integrity).",
     "[10:43] Replication: +1 commit [phpscan-mcp] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-14T10:43:11.821Z",
+  "lastUpdated": "2026-11-14T16:46:25.501Z",
   "lastEventTimestamp": "2026-11-13T17:49:51Z",
   "lastEventId": "27094154034"
 }
