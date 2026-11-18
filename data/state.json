@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 80.5,
-  "cpuLoad": 16,
+  "integrity": 79,
+  "cpuLoad": 15,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[10:43] Replication: +1 commit [phpscan-mcp] (+2.5% spread, +12% integrity).",
     "[20:59] Replication: +2 commits [phpscan-mcp] (+5.0% spread, +24% integrity)."
   ],
-  "lastUpdated": "2026-11-18T11:58:06.751Z",
+  "lastUpdated": "2026-11-18T19:51:48.515Z",
   "lastEventTimestamp": "2026-11-13T18:23:30Z",
   "lastEventId": "27277507203"
 }
