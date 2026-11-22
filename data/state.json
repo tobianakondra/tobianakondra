@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 85,
-  "cpuLoad": 12,
+  "integrity": 83.5,
+  "cpuLoad": 11,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[18:19] Replication: +1 commit [phosphor] (+2.5% spread, +12% integrity).",
     "[23:29] Replication: +1 commit [phosphor] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-22T03:21:41.217Z",
+  "lastUpdated": "2026-11-22T11:43:02.166Z",
   "lastEventTimestamp": "2026-11-21T18:50:05Z",
   "lastEventId": "27853919698"
 }
