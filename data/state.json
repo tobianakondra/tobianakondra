@@ -1,17 +1,17 @@
 {
   "infectionRate": 100,
   "integrity": 100,
-  "cpuLoad": 17,
+  "cpuLoad": 16,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
-    "[23:29] Replication: +1 commit [phosphor] (+2.5% spread, +12% integrity).",
     "[15:01] Replication: +2 commits [phosphor] (+5.0% spread, +24% integrity).",
     "[05:06] Replication: +1 commit [revibe-flip] (+2.5% spread, +12% integrity).",
     "[15:52] Replication: +3 commits [revibe-flip] (+7.5% spread, +36% integrity).",
-    "[24:07] Replication: +3 commits [revibe-flip] (+7.5% spread, +36% integrity)."
+    "[24:07] Replication: +3 commits [revibe-flip] (+7.5% spread, +36% integrity).",
+    "[08:50] Replication: +1 commit [revibe-flip] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-27T00:07:36.383Z",
-  "lastEventTimestamp": "2026-11-25T16:25:09Z",
-  "lastEventId": "28357464650"
+  "lastUpdated": "2026-11-27T08:50:37.555Z",
+  "lastEventTimestamp": "2026-11-25T18:07:44Z",
+  "lastEventId": "28378773605"
 }
