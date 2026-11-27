@@ -1,7 +1,7 @@
 {
   "infectionRate": 100,
-  "integrity": 100,
-  "cpuLoad": 16,
+  "integrity": 98.5,
+  "cpuLoad": 13,
   "defense": 58,
   "stage": "SENTIENT",
   "history": [
@@ -11,7 +11,7 @@
     "[24:07] Replication: +3 commits [revibe-flip] (+7.5% spread, +36% integrity).",
     "[08:50] Replication: +1 commit [revibe-flip] (+2.5% spread, +12% integrity)."
   ],
-  "lastUpdated": "2026-11-27T08:50:37.555Z",
+  "lastUpdated": "2026-11-27T18:31:49.669Z",
   "lastEventTimestamp": "2026-11-25T18:07:44Z",
   "lastEventId": "28378773605"
 }
